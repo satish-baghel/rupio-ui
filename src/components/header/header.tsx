@@ -67,7 +67,7 @@ const Header = () => {
 
             {/* User Register */}
             <Link href='/register' className='mr-4'>
-              <Button variant='secondary' size='sm' color='primary'>
+              <Button variant='primary' size='sm'>
                 Register
               </Button>
             </Link>

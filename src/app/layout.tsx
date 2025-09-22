@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Bokor, Source_Sans_3 } from 'next/font/google'
+import { Source_Sans_3 } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/header/header'
 import Footer from '@/components/footer/footer'

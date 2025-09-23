@@ -63,8 +63,8 @@ export default function RootLayout({
   return (
     <html
       lang='en'
-      suppressHydrationWarning
       className={cn(sourceSans3.className)}
+      suppressHydrationWarning
     >
       <body>
         <script

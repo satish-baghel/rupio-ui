@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { LineChart, Menu, Moon, Sun, X } from 'lucide-react'
 import Link from 'next/link'
 
@@ -18,13 +18,35 @@ const sourceBokor = Audiowide({
 
 const Header = () => {
   const { theme, setTheme, systemTheme } = useTheme()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<Boolean>(false)
+  const mobileMenuRef = useRef<HTMLElement | null>(null)
+
   const isDark =
     theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
 
   const handleToggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
+
+  //
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as HTMLInputElement)
+      ) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleOutsideClick)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick)
+    }
+  }, [isMobileMenuOpen])
 
   return (
     <header className='sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md shadow-sm py-2 dark:border-b  dark:border-gray-800 rounded-lg'>
@@ -57,27 +79,23 @@ const Header = () => {
           })}
         </nav>
         <div>
-          <div className='hidden md:flex items-center justify-end'>
+          <div className='md:flex items-center justify-end'>
             {/* User Login */}
-            <Link href='/login' className='mr-4'>
-              <Button variant='outline' size='sm'>
-                Log In
-              </Button>
-            </Link>
+            <div className='hidden md:flex items-center space-x-2'>
+              <Link href='/login' className='mr-4'>
+                <Button variant='outline' size='sm'>
+                  Log In
+                </Button>
+              </Link>
 
-            {/* User Register */}
-            <Link href='/register' className='mr-4'>
-              <Button variant='primary' size='sm'>
-                Register
-              </Button>
-            </Link>
+              {/* User Register */}
+              <Link href='/register' className='mr-4'>
+                <Button variant='primary' size='sm'>
+                  Register
+                </Button>
+              </Link>
+            </div>
             <div className='flex items-center space-x-2'>
-              <Button
-                onClick={handleToggleMobileMenu}
-                className='text-gray-600 dark:text-gray-300 hover:text-fuchsia-600 inline-block md:hidden'
-              >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </Button>
               {/* Mobile Menu & Dark Mode Toggle */}
 
               <Button
@@ -85,13 +103,42 @@ const Header = () => {
                 variant='secondary'
                 size='sm'
               >
-                {isDark ? (
-                  <Sun className='h-6 w-6 text-yellow-500 rotate-0 transition-all' />
-                ) : (
-                  <Moon className='h-6 w-6 text-blue-500 rotate-0 transition-all' />
-                )}
+                <Sun className='h-6 w-6 text-yellow-500 rotate-0 transition-all dark:hidden block' />
+                <Moon className='h-6 w-6 text-blue-500 rotate-0 transition-all hidden dark:block' />
+              </Button>
+              <Button
+                onClick={handleToggleMobileMenu}
+                variant={'secondary'}
+                className='inline-block md:hidden'
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </Button>
             </div>
+
+            {/* Mobile Navigation Menu */}
+
+            <nav
+              ref={mobileMenuRef}
+              className={`md:hidden absolute top-16 left-0 w-full bg-white dark:bg-gray-950 shadow-lg transition-all duration-300 ease-in-out ${
+                isMobileMenuOpen
+                  ? 'translate-y-0 opacity-100'
+                  : '-translate-y-full opacity-0 pointer-events-none'
+              }`}
+            >
+              <div className='flex flex-col items-center py-4 space-y-4'>
+                {menuItems.map((menu) => {
+                  return (
+                    <Link
+                      key={menu.path}
+                      href={menu.path}
+                      className='text-gray-600 dark:text-gray-300 hover:text-fuchsia-600  dark:hover:text-fuchsia-600 font-medium transition-colors'
+                    >
+                      {menu.name}
+                    </Link>
+                  )
+                })}
+              </div>
+            </nav>
           </div>
         </div>
       </div>

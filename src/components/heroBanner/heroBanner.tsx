@@ -38,7 +38,7 @@ const HeroBanner = () => {
           </div>
         </div>
         {/* Right Section (Image) */}
-        <div className='flex-1 mt-8 md:mt-0 relative'>
+        <div className='hidden md:block flex-1 mt-8 md:mt-0 relative'>
           <img
             src='https://placehold.co/600x400/8b5cf6/ffffff?text=Financial+Growth'
             alt='A stock market graph'

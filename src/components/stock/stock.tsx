@@ -32,61 +32,59 @@ const Stock = () => {
           overview of key indices.
         </p>
 
-        <div className=''>
-          <Carousel
-            opts={{
-              // align: 'start',
-              duration: 10,
-              skipSnaps: true,
-            }}
-          >
-            <CarouselContent className='w-full'>
-              {marketIndices.map((index, i) => (
-                <CarouselItem
-                  key={`${index.name}-${i}`}
-                  className='basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-4 mb-4'
-                >
-                  <Card>
-                    <CardContent>
-                      <div className=' bg-white dark:bg-gray-900 duration-300'>
-                        <h4 className='text-base md:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1'>
-                          {index.name}
-                        </h4>
-                        <p className='text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100'>
-                          {index.value}
-                        </p>
-                        <div className='flex items-center space-x-1 mt-1'>
-                          <span
-                            className={`text-sm font-semibold ${
-                              index.change >= 0
-                                ? 'text-green-500'
-                                : 'text-red-500'
-                            }`}
-                          >
-                            {index.change > 0 ? '+' : ''}
-                            {index.change.toFixed(2)}
-                          </span>
-                          <span
-                            className={`text-sm font-semibold ${
-                              index.change >= 0
-                                ? 'text-green-500'
-                                : 'text-red-500'
-                            }`}
-                          >
-                            ({index.percentage > 0 ? '+' : ''}
-                            {index.percentage.toFixed(2)}%)
-                          </span>
-                        </div>
+        <Carousel
+          opts={{
+            // align: 'start',
+            duration: 10,
+            skipSnaps: true,
+          }}
+        >
+          <CarouselContent className='w-full'>
+            {marketIndices.map((index, i) => (
+              <CarouselItem
+                key={`${index.name}-${i}`}
+                className='sm:basis-1/3 md:basis-1/4 lg:basis-1/5 px-4 mb-4'
+              >
+                <Card>
+                  <CardContent className='flex items-center justify-center sm:items-start sm:justify-start'>
+                    <div className=' bg-white dark:bg-gray-900 duration-300'>
+                      <h4 className='text-base md:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1'>
+                        {index.name}
+                      </h4>
+                      <p className='text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100'>
+                        {index.value}
+                      </p>
+                      <div className='flex items-center space-x-1 mt-1'>
+                        <span
+                          className={`text-sm font-semibold ${
+                            index.change >= 0
+                              ? 'text-green-500'
+                              : 'text-red-500'
+                          }`}
+                        >
+                          {index.change > 0 ? '+' : ''}
+                          {index.change.toFixed(2)}
+                        </span>
+                        <span
+                          className={`text-sm font-semibold ${
+                            index.change >= 0
+                              ? 'text-green-500'
+                              : 'text-red-500'
+                          }`}
+                        >
+                          ({index.percentage > 0 ? '+' : ''}
+                          {index.percentage.toFixed(2)}%)
+                        </span>
                       </div>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselNext />
-            <CarouselPrevious />
-          </Carousel>
-        </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselNext className='right-0 md:-right-10 ' />
+          <CarouselPrevious className='left-0 md:-left-10' />
+        </Carousel>
       </div>
     </section>
   )

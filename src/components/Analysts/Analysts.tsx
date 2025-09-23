@@ -1,6 +1,13 @@
 'use client'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import React, { useState } from 'react'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '../ui/carousel'
 
 const Analysts = () => {
   const [currentAnalystIndex, setCurrentAnalystIndex] = useState(0)
@@ -176,7 +183,67 @@ const Analysts = () => {
           Browse our directory to find and connect with top-tier financial
           experts who are verified by SEBI.
         </p>
-        <div className='relative flex items-center justify-center'>
+
+        <Carousel
+          opts={{
+            align: 'start',
+            duration: 10,
+            skipSnaps: true,
+          }}
+        >
+          <CarouselContent>
+            {analysts.map((analyst, i) => {
+              return (
+                <CarouselItem
+                  key={`${analyst.name}-${i}`}
+                  className='basis-1/1 sm:basis-1/1 md:basis-1/2 lg:basis-1/2'
+                >
+                  <div className='flex flex-col items-center'>
+                    {analysts.length > 0 && (
+                      <div className='flex flex-col items-center'>
+                        <div className='w-32 h-32 rounded-full overflow-hidden mb-4 border-4 border-fuchsia-600 shadow-md'>
+                          <img
+                            src={analyst.img}
+                            alt={`Analyst ${analyst.name}`}
+                            className='object-cover w-full h-full'
+                          />
+                        </div>
+                        <h4 className='text-xl font-semibold text-gray-900 dark:text-gray-100'>
+                          {analyst.name}
+                        </h4>
+                        <p className='text-sm text-gray-500 dark:text-gray-400'>
+                          SEBI Reg. No. {analyst.sebiRegNo}
+                        </p>
+                        <p className='text-gray-700 dark:text-gray-300 mt-2'>
+                          Expertise: {analyst.expertise}
+                        </p>
+                        <a
+                          href='#'
+                          className='mt-2 text-fuchsia-600 hover:underline font-medium'
+                        >
+                          View Profile
+                        </a>
+                      </div>
+                    )}
+                    <div className='mt-6 text-gray-600 dark:text-gray-400'>
+                      {/* {currentAnalystIndex + 1} of {analysts.length} */}
+                    </div>
+                  </div>
+                </CarouselItem>
+              )
+            })}
+          </CarouselContent>
+          <CarouselNext className='right-0 md:-right-12 ' />
+          <CarouselPrevious className='left-0 md:-left-12' />
+        </Carousel>
+      </div>
+    </section>
+  )
+}
+
+export default Analysts
+{
+  /* <div className='relative flex items-center justify-center'>
           <button
             // onClick={handlePrevAnalyst}
             className='absolute left-0 p-2 rounded-full bg-violet-100 dark:bg-gray-800 shadow-md hover:bg-violet-200 dark:hover:bg-gray-700 transition-colors z-10'
@@ -228,10 +295,5 @@ const Analysts = () => {
               className='text-gray-600 dark:text-gray-300'
             />
           </button>
-        </div>
-      </div>
-    </section>
-  )
+        </div> */
 }
-
-export default Analysts
